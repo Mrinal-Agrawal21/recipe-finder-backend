@@ -7,11 +7,12 @@ import { ENV } from "./config/env.js";
 import { db } from "./config/db.js";
 import { favouriteTable } from "./db/schema.js";
 import { eq, and } from "drizzle-orm";
+import job from "./config/cron.js";
 const app = express();
 
 // app.use(cors());
 app.use(express.json());
-
+if (process.env.NODE_ENV === "production") job.start();
 // const db = drizzle(postgres(process.env.DATABASE_URL));
 
 app.post('/api/favourites', async (req, res) => {
